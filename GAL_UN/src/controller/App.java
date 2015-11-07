@@ -6,8 +6,7 @@ import view.*;
 public final class App {
 
 	private App() {
-		generator = new LexicalAnalyzerGenerator(
-				new RegularExpressionsInterpreter());
+		manager = new InterpreterManager();
 		terminal = new Terminal();
 	}
 
@@ -31,6 +30,10 @@ public final class App {
 		return terminal.readFromConsole();
 	}
 
+	public LexicalAnalyzer process(String txt, String cmd) {
+		return manager.process(txt, cmd);
+	}
+
 	public static void main(String[] args) {
 		App app = App.getInstance();
 		app.run();
@@ -39,7 +42,7 @@ public final class App {
 	// Singleton Object
 	private static App instance;
 	// Lexical Analyzer Generator
-	private LexicalAnalyzerGenerator generator;
+	private InterpreterManager manager;
 	// Terminal UI manager
 	private Terminal terminal;
 }
