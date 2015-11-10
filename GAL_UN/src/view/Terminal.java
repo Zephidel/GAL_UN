@@ -6,8 +6,15 @@ public class Terminal {
 		
 	}
 	
-	public String readFromConsole(){
+	public String readFromConsole(String fileLocation, String fontLang,
+			String destLang){
 		String value = "";
+		
+		try{
+			/* Try load and read the file */
+		}catch(Exception e){
+			/* Loading error management */
+		}
 		
 		return value;
 	}
@@ -17,8 +24,9 @@ public class Terminal {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 
+	public static final String PYTHON_MODIFIER = "-p";
+	public static final String REGULAR_EXPRESIONS_MODIFIER = "-r";
 }
