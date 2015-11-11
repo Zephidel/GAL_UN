@@ -1,12 +1,10 @@
 package controller;
 
 import model.*;
-import view.*;
 
 public final class App {
 
 	private App() {
-		manager = new InterpreterManager();
 		terminal = new Terminal();
 	}
 
@@ -20,7 +18,8 @@ public final class App {
 
 	public void run(String[] arguments) {
 		if (arguments.length == 3) {
-			readFromConsole(arguments[0], arguments[1], arguments[2]);
+			System.out.println(terminal.readFromConsole(arguments[0],
+					arguments[1], arguments[2]));
 		} else {
 			System.out.println(ARG_ERR);
 		}
@@ -28,22 +27,6 @@ public final class App {
 
 	public void printInConsole(String message) {
 		terminal.printInConsole(message);
-	}
-
-	public String readFromConsole(String fileLocation, String fontLang,
-			String destLang) {
-
-		String value = PATH_ERR;
-
-		if (fileLocation.contains(FILE_EXT)) {
-			value = terminal.readFromConsole(fileLocation, fontLang, destLang);
-		}
-
-		return value;
-	}
-
-	public LexicalAnalyzer process(String txt, String cmd) {
-		return manager.process(txt, cmd);
 	}
 
 	/* Execution Example: GalUn 'FileName' 'FontLanguage' 'DestinationLanguage' */
@@ -54,8 +37,6 @@ public final class App {
 
 	// Singleton Object
 	private static App instance;
-	// Lexical Analyzer Generator
-	private InterpreterManager manager;
 	// Terminal UI manager
 	private Terminal terminal;
 
@@ -65,4 +46,5 @@ public final class App {
 	public static final String LEX_ERR = "Error : Not a valid sintax";
 	public static final String ARG_ERR = "Error : Missing Arguments / Invalid argument sintax";
 	public static final String SUCCESS = "Success : File saved / Path: ";
+	public static final String FILE_SUCCESS = "Success : File read";
 }

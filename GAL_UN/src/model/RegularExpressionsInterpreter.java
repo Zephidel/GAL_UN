@@ -1,5 +1,7 @@
 package model;
 
+import java.util.LinkedList;
+
 public class RegularExpressionsInterpreter extends LanguageInterpreter {
 
 	public RegularExpressionsInterpreter() {
@@ -8,9 +10,11 @@ public class RegularExpressionsInterpreter extends LanguageInterpreter {
 	}
 
 	@Override
-	public LexicalAnalyzer processTxt(String text) {
+	public LexicalAnalyzer processTxt(LinkedList<String> text, String destLang) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }
