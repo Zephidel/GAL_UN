@@ -1,11 +1,9 @@
 package controller;
 
-import model.*;
-
 public final class App {
 
 	private App() {
-		terminal = new Terminal();
+
 	}
 
 	// Singleton Getter
@@ -17,19 +15,18 @@ public final class App {
 	}
 
 	public void run(String[] arguments) {
-		if (arguments.length == 3) {
-			System.out.println(terminal.readFromConsole(arguments[0],
-					arguments[1], arguments[2]));
+		if (arguments.length == 2) {
+
 		} else {
 			System.out.println(ARG_ERR);
 		}
 	}
 
 	public void printInConsole(String message) {
-		terminal.printInConsole(message);
+
 	}
 
-	/* Execution Example: GalUn 'FileName' 'FontLanguage' 'DestinationLanguage' */
+	/* Execution Example: GalUn 'FontLanguage' 'DestinationLanguage' */
 	public static void main(String[] args) {
 		App app = App.getInstance();
 		app.run(args);
@@ -38,7 +35,6 @@ public final class App {
 	// Singleton Object
 	private static App instance;
 	// Terminal UI manager
-	private Terminal terminal;
 
 	/* Constants */
 	public static final String FILE_EXT = ".laf";
