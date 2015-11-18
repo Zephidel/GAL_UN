@@ -3,7 +3,8 @@ package controller;
 public final class App {
 
 	private App() {
-
+		/* Creation */
+		analyzer = new model.lexicalAnalyzer.LexicalAnalyzer();
 	}
 
 	// Singleton Getter
@@ -15,11 +16,16 @@ public final class App {
 	}
 
 	public void run(String[] arguments) {
+		/* Initialization if needed */
 		if (arguments.length == 2) {
 
 		} else {
 			System.out.println(ARG_ERR);
 		}
+	}
+
+	public void lexicalAnalyzer(String filePath) {
+		analyzer.analyzeFile(filePath);
 	}
 
 	public void printInConsole(String message) {
@@ -29,12 +35,17 @@ public final class App {
 	/* Execution Example: GalUn 'FontLanguage' 'DestinationLanguage' */
 	public static void main(String[] args) {
 		App app = App.getInstance();
-		app.run(args);
+		// app.run(args);
+		/* For testing purposes */
+		if (args.length > 0) {
+			app.lexicalAnalyzer(args[0]);
+		}
 	}
 
 	// Singleton Object
 	private static App instance;
-	// Terminal UI manager
+
+	private model.lexicalAnalyzer.LexicalAnalyzer analyzer;
 
 	/* Constants */
 	public static final String FILE_EXT = ".laf";

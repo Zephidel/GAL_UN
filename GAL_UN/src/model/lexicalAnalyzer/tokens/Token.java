@@ -26,6 +26,8 @@ public abstract class Token {
 		return lexeme;
 	}
 
+	public abstract String fileExt();
+
 	private Type type;
 	private String lexeme;
 }

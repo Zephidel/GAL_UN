@@ -10,6 +10,11 @@ public class PythonToken extends Token {
 		this.setLexeme(lexeme);
 	}
 
+	@Override
+	public String fileExt() {
+		return ".py";
+	}
+
 	public static LinkedList<String> PythonKeywords = new LinkedList<>(
 			Arrays.asList("and", "as", "assert", "break", "class", "continue",
 					"def", "del", "elif", "else", "except", "exec", "False",
