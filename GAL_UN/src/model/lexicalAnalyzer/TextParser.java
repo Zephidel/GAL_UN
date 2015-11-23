@@ -12,6 +12,7 @@ public class TextParser {
 
 	public LinkedList<String> loadFile(String path) {
 		/* Try to load file */
+		boolean isCommentedBlock = false;
 		BufferedReader aReader = null;
 		LinkedList<String> text = new LinkedList<String>();
 
@@ -22,8 +23,25 @@ public class TextParser {
 
 			while (currentLine != null) {
 				/* Process the last read line */
+				if (currentLine.startsWith("\"\"\"") && !isCommentedBlock) {
+					currentLine = aReader.readLine();
+					isCommentedBlock = true;
+				}
+
+				if (isCommentedBlock) {
+					if (currentLine.endsWith("\"\"\"")) {
+						isCommentedBlock = false;
+					}
+				} else {
+					if (!currentLine.startsWith("#")) {
+						currentLine = currentLine.replaceAll("\n", "");
+						currentLine = currentLine.replaceAll("\t", "");
+						if (currentLine.length() > 0) {
+							text.add(currentLine);
+						}
+					}
+				}
 				currentLine = aReader.readLine();
-				text.add(currentLine);
 			}
 		} catch (Exception e) {
 			/* Loading error management */

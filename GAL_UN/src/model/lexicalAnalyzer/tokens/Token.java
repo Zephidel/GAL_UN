@@ -7,15 +7,15 @@ public abstract class Token {
 	};
 
 	protected void setType(Type type) {
-		if (type == null) {
-			this.type = type;
-		}
+		this.type = type;
 	}
 
 	protected void setLexeme(String lexeme) {
-		if (lexeme == null) {
-			this.lexeme = lexeme;
-		}
+		this.lexeme = lexeme;
+	}
+
+	protected void setId(int id) {
+		this.id = id;
 	}
 
 	public Type getType() {
@@ -26,8 +26,11 @@ public abstract class Token {
 		return lexeme;
 	}
 
-	public abstract String fileExt();
+	public int getId() {
+		return id;
+	}
 
 	private Type type;
 	private String lexeme;
+	private int id;
 }

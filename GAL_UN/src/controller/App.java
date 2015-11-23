@@ -25,7 +25,11 @@ public final class App {
 	}
 
 	public void lexicalAnalyzer(String filePath) {
-		analyzer.analyzeFile(filePath);
+		if (filePath.endsWith(".py")) {
+			analyzer.analyzeFile(filePath);
+		} else {
+			System.out.println(PATH_ERR);
+		}
 	}
 
 	public void printInConsole(String message) {

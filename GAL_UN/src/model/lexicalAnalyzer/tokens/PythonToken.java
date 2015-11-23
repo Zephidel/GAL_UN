@@ -5,14 +5,10 @@ import java.util.LinkedList;
 
 public class PythonToken extends Token {
 
-	public PythonToken(Type type, String lexeme) {
+	public PythonToken(Type type, String lexeme, int id) {
 		this.setType(type);
 		this.setLexeme(lexeme);
-	}
-
-	@Override
-	public String fileExt() {
-		return ".py";
+		this.setId(id);
 	}
 
 	public static LinkedList<String> PythonKeywords = new LinkedList<>(
