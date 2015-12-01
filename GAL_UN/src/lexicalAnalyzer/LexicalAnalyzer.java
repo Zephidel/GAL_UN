@@ -1,18 +1,44 @@
-package model.lexicalAnalyzer;
+package lexicalAnalyzer;
 
+import java.io.*;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import model.lexicalAnalyzer.tokens.PythonToken;
-import model.lexicalAnalyzer.tokens.Token;
+import javax.swing.JFileChooser;
 
 public class LexicalAnalyzer {
+
+	public class PythonToken extends Token {
+
+		public PythonToken(Type type, String lexeme, int id) {
+			this.setType(type);
+			this.setLexeme(lexeme);
+			this.setId(id);
+		}
+
+		public LinkedList<String> PythonKeywords = new LinkedList<>(
+				Arrays.asList("and", "as", "assert", "break", "class",
+						"continue", "def", "del", "elif", "else", "except",
+						"exec", "False", "finally", "for", "from", "global",
+						"if", "import", "in", "is", "lambda", "None",
+						"nonlocal", "not", "or", "pass", "print", "raise",
+						"return", "True", "try", "while", "with", "yield"));
+
+		public LinkedList<String> Operators = new LinkedList<>(Arrays.asList(
+				"=", "==", "!=", "+", "-", "*", "**", "/", ":"));
+
+		public LinkedList<String> Parenthesis = new LinkedList<>(Arrays.asList(
+				"(", ")", "{", "}", "[", "]"));
+	};
 
 	public LexicalAnalyzer() {
 		foundTokens = new LinkedList<>();
 		foundIdentifiers = new LinkedList<>();
 		parser = new TextParser();
+		aToken = new PythonToken(null, "", 0);
 	}
 
 	public boolean analyzeFile(String filePath) {
@@ -129,8 +155,7 @@ public class LexicalAnalyzer {
 		boolean value = false;
 		if (word.matches("^[a-zA-Z]+$")) {
 			/* Is it a keyword */
-			if (model.lexicalAnalyzer.tokens.PythonToken.PythonKeywords
-					.contains(word)) {
+			if (aToken.PythonKeywords.contains(word)) {
 				foundTokens.add(new PythonToken(Token.Type.Keyword, word, -1));
 				value = true;
 			}
@@ -188,11 +213,68 @@ public class LexicalAnalyzer {
 		return value;
 	}
 
-	public java.util.LinkedList<model.lexicalAnalyzer.tokens.Token> getLastFoundTokens() {
+	public void generate(String modifier) {
+		if (modifier.contains("-j")) {
+			URL analyzerPath = this.getClass().getResource(
+					"LexicalAnalyzer.java");
+			URL parserPath = this.getClass().getResource("TextParser.java");
+			URL tokenPath = this.getClass().getResource("Token.java");
+
+			InputStream input = null;
+			OutputStream output = null;
+
+			try {
+				output = new FileOutputStream((new JFileChooser())
+						.getFileSystemView().getDefaultDirectory()
+						+ "\\lexicalAnalyzer");
+				input = new FileInputStream(analyzerPath.toString());
+
+				byte[] buffer = new byte[1024];
+				int bytesRead;
+
+				while ((bytesRead = input.read(buffer)) > 0) {
+					output.write(buffer, 0, bytesRead);
+				}
+
+				input.close();
+				input = new FileInputStream(parserPath.toString());
+
+				bytesRead = 0;
+
+				while ((bytesRead = input.read(buffer)) > 0) {
+					output.write(buffer, 0, bytesRead);
+				}
+
+				input.close();
+				input = new FileInputStream(tokenPath.toString());
+
+				bytesRead = 0;
+
+				while ((bytesRead = input.read(buffer)) > 0) {
+					output.write(buffer, 0, bytesRead);
+				}
+
+				output.close();
+				input.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("=P");
+		}
+	}
+
+	public java.util.LinkedList<Token> getLastFoundTokens() {
 		return foundTokens;
 	}
 
+	public static void main(String[] args) {
+		LexicalAnalyzer la = new LexicalAnalyzer();
+		la.analyzeFile(args[0]);
+	}
+
 	private TextParser parser;
-	private java.util.LinkedList<model.lexicalAnalyzer.tokens.Token> foundTokens;
-	private java.util.LinkedList<String> foundIdentifiers;
+	private LinkedList<Token> foundTokens;
+	private LinkedList<String> foundIdentifiers;
+	private PythonToken aToken;
 }

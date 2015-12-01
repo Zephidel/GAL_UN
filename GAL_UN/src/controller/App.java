@@ -4,7 +4,7 @@ public final class App {
 
 	private App() {
 		/* Creation */
-		analyzer = new model.lexicalAnalyzer.LexicalAnalyzer();
+		analyzer = new lexicalAnalyzer.LexicalAnalyzer();
 	}
 
 	// Singleton Getter
@@ -15,11 +15,11 @@ public final class App {
 		return instance;
 	}
 
-	public void run(String[] arguments) {
+	public void run(String argument) {
 		/* Initialization if needed */
-		if (arguments.length == 2) {
-
-		} else {
+		if (argument.contains("-j") || argument.contains("-p")) {			
+			analyzer.generate(argument);
+		} else {			
 			System.out.println(ARG_ERR);
 		}
 	}
@@ -39,17 +39,13 @@ public final class App {
 	/* Execution Example: GalUn 'FontLanguage' 'DestinationLanguage' */
 	public static void main(String[] args) {
 		App app = App.getInstance();
-		// app.run(args);
-		/* For testing purposes */
-		if (args.length > 0) {
-			app.lexicalAnalyzer(args[0]);
-		}
+		app.run(args[0]);
 	}
 
 	// Singleton Object
 	private static App instance;
 
-	private model.lexicalAnalyzer.LexicalAnalyzer analyzer;
+	private lexicalAnalyzer.LexicalAnalyzer analyzer;
 
 	/* Constants */
 	public static final String FILE_EXT = ".laf";

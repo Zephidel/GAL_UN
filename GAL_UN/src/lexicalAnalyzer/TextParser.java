@@ -1,4 +1,4 @@
-package model.lexicalAnalyzer;
+package lexicalAnalyzer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package model.lexicalAnalyzer.tokens;
+package lexicalAnalyzer;
 
 public abstract class Token {
 
