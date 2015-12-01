@@ -3,7 +3,8 @@ package model.lexicalAnalyzer;
 public class LexicalAnalyzer {
 
 	public LexicalAnalyzer() {
-		lastFoundTokens = new java.util.LinkedList<>();
+		foundTokens = new java.util.LinkedList<>();
+		foundIdentifiers = new java.util.LinkedList<>();
 		parser = new TextParser();
 	}
 
@@ -15,8 +16,12 @@ public class LexicalAnalyzer {
 		/* text.size > 0 means the file was loaded */
 		if (text.size() > 0) {
 			/* Empty the token list */
-			if (lastFoundTokens.size() > 0) {
-				lastFoundTokens.clear();
+			if (foundTokens.size() > 0) {
+				foundTokens.clear();
+			}
+
+			if (foundIdentifiers.size() > 0) {
+				foundIdentifiers.clear();
 			}
 
 			for (String string : text) {
@@ -38,10 +43,11 @@ public class LexicalAnalyzer {
 						temp = temp + word + " ";
 						if (word.matches("^.*\"$")) {
 							isLiteral = false;
-							lastFoundTokens
+							foundTokens
 									.add(new model.lexicalAnalyzer.tokens.PythonToken(
 											model.lexicalAnalyzer.tokens.Token.Type.Literal,
 											temp, -1));
+							temp = "";
 						}
 					} else {
 
@@ -49,10 +55,44 @@ public class LexicalAnalyzer {
 							/* Is it a keyword */
 							if (model.lexicalAnalyzer.tokens.PythonToken.PythonKeywords
 									.contains(word)) {
-								lastFoundTokens
+								foundTokens
 										.add(new model.lexicalAnalyzer.tokens.PythonToken(
 												model.lexicalAnalyzer.tokens.Token.Type.Keyword,
 												word, -1));
+							}
+							/* It is an Identifier */
+							else {
+								if (!foundIdentifiers.contains(word)) {
+									foundIdentifiers.add(word);
+								}
+								foundTokens
+										.add(new model.lexicalAnalyzer.tokens.PythonToken(
+												model.lexicalAnalyzer.tokens.Token.Type.Identifier,
+												word, foundIdentifiers
+														.indexOf(word)));
+							}
+						} else {
+							/* Is it a number */
+							if (word.matches("^[0-9]+$")) {
+								foundTokens
+										.add(new model.lexicalAnalyzer.tokens.PythonToken(
+												model.lexicalAnalyzer.tokens.Token.Type.Number,
+												word, foundIdentifiers
+														.indexOf(word)));
+							} else {
+								/* Is it an Alpha - Numerical Identifier */
+								if (word.matches("^[a-zA-Z]+([a-zA-Z]+|[0-9]+|_|-)+$")) {
+									if (!foundIdentifiers.contains(word)) {
+										foundIdentifiers.add(word);
+									}
+									foundTokens
+											.add(new model.lexicalAnalyzer.tokens.PythonToken(
+													model.lexicalAnalyzer.tokens.Token.Type.Identifier,
+													word, foundIdentifiers
+															.indexOf(word)));
+								} else {
+									
+								}
 							}
 						}
 					}
@@ -61,7 +101,7 @@ public class LexicalAnalyzer {
 
 			}
 
-			for (model.lexicalAnalyzer.tokens.Token aToken : lastFoundTokens) {
+			for (model.lexicalAnalyzer.tokens.Token aToken : foundTokens) {
 				System.out.println("<" + aToken.getType() + ", "
 						+ aToken.getLexeme() + ", " + aToken.getId() + ">");
 			}
@@ -73,9 +113,10 @@ public class LexicalAnalyzer {
 	}
 
 	public java.util.LinkedList<model.lexicalAnalyzer.tokens.Token> getLastFoundTokens() {
-		return lastFoundTokens;
+		return foundTokens;
 	}
 
 	private TextParser parser;
-	private java.util.LinkedList<model.lexicalAnalyzer.tokens.Token> lastFoundTokens;
+	private java.util.LinkedList<model.lexicalAnalyzer.tokens.Token> foundTokens;
+	private java.util.LinkedList<String> foundIdentifiers;
 }
