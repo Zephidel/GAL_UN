@@ -20,38 +20,50 @@ public class LexicalAnalyzer {
 			}
 
 			for (String string : text) {
-				String word = "";
-				int idx = 0;				
-				while (idx < string.length()) {
-					char temp = string.charAt(idx);
-					/* Is number */
-					if ((temp >= 48 && temp <= 57)
-					/* Is capital letter */
-					|| (temp >= 65 && temp <= 90)
-					/* Is lower case letter */
-					|| (temp >= 97 && temp <= 122)) {
+				String[] words = string.split(" ");
+				int idx = 0;
 
-					} else {
-						word = string.substring(0, idx);
-						if (model.lexicalAnalyzer.tokens.PythonToken.PythonKeywords
-								.contains(word)) {
-							/* Add a keyword token */
+				boolean isLiteral = false;
+				String temp = "";
+
+				while (idx < words.length) {
+					String word = words[idx];
+
+					/* Is it a literal */
+					if (word.matches("^\".*$")) {
+						isLiteral = true;
+					}
+
+					if (isLiteral) {
+						temp = temp + word + " ";
+						if (word.matches("^.*\"$")) {
+							isLiteral = false;
 							lastFoundTokens
 									.add(new model.lexicalAnalyzer.tokens.PythonToken(
-											model.lexicalAnalyzer.tokens.Token.Type.keyword,
-											word, -1));
-						} else {
+											model.lexicalAnalyzer.tokens.Token.Type.Literal,
+											temp, -1));
+						}
+					} else {
 
+						if (word.matches("^[a-zA-Z]+$")) {
+							/* Is it a keyword */
+							if (model.lexicalAnalyzer.tokens.PythonToken.PythonKeywords
+									.contains(word)) {
+								lastFoundTokens
+										.add(new model.lexicalAnalyzer.tokens.PythonToken(
+												model.lexicalAnalyzer.tokens.Token.Type.Keyword,
+												word, -1));
+							}
 						}
 					}
 					idx = idx + 1;
 				}
+
 			}
 
 			for (model.lexicalAnalyzer.tokens.Token aToken : lastFoundTokens) {
 				System.out.println("<" + aToken.getType() + ", "
-						+ aToken.getLexeme() + ", " + aToken.getId() + ", "
-						+ ">");
+						+ aToken.getLexeme() + ", " + aToken.getId() + ">");
 			}
 
 			value = true;

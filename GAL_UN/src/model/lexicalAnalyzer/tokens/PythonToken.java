@@ -18,4 +18,10 @@ public class PythonToken extends Token {
 					"is", "lambda", "None", "nonlocal", "not", "or", "pass",
 					"print", "raise", "return", "True", "try", "while", "with",
 					"yield"));
+
+	public static LinkedList<String> Operators = new LinkedList<>(
+			Arrays.asList("=", "==", "+", "-", "*", "**", "/"));
+
+	public static LinkedList<String> Parenthesis = new LinkedList<>(
+			Arrays.asList("(", ")", "{", "}", "[", "]"));
 }
