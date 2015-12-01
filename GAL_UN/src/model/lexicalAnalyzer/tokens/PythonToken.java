@@ -20,7 +20,7 @@ public class PythonToken extends Token {
 					"yield"));
 
 	public static LinkedList<String> Operators = new LinkedList<>(
-			Arrays.asList("=", "==", "+", "-", "*", "**", "/"));
+			Arrays.asList("=", "==", "!=", "+", "-", "*", "**", "/", ":"));
 
 	public static LinkedList<String> Parenthesis = new LinkedList<>(
 			Arrays.asList("(", ")", "{", "}", "[", "]"));

@@ -35,7 +35,8 @@ public class TextParser {
 				} else {
 					if (!currentLine.startsWith("#")) {
 						currentLine = currentLine.replaceAll("\n", "");
-						currentLine = currentLine.replaceAll("\t", "");
+						currentLine = currentLine.replaceAll("\t", "");					
+
 						if (currentLine.length() > 0) {
 							text.add(currentLine);
 						}

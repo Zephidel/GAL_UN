@@ -3,7 +3,7 @@ package model.lexicalAnalyzer.tokens;
 public abstract class Token {
 
 	public enum Type {
-		Identifier, AsignationOp, SumOp, MultOp, PowOp, ComparisonOp, Keyword, Number, Literal, Parenthesis
+		Identifier, AsignationOp, MathOp, ComparisonOp, Keyword, Number, Literal, DefinitionOp, SpecialSymbol
 	};
 
 	protected void setType(Type type) {
